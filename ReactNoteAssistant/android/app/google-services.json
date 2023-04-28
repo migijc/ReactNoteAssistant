@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "1022956188677",
+    "project_id": "reactnoteassistant",
+    "storage_bucket": "reactnoteassistant.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1022956188677:android:42cb3580daea5e6dc1986c",
+        "android_client_info": {
+          "package_name": "com.reactnoteassistant"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1022956188677-7nu16aah370i209ovkr9tmrumnj2799r.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWoGFBMkG-4iowiYc8-FiX5hBGFOJ7Su0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1022956188677-7nu16aah370i209ovkr9tmrumnj2799r.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
