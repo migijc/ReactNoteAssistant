@@ -2,10 +2,11 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, TextInput, Pressable} from 'react-native';
 import firebaseHelpers from '../helperFunctions/firebaseHelpers';
 
-export default function LogIn() {
+export default function LogIn(props) {
   const [emailToAttaempt, setEmailToAttempt] = useState('');
   const [passwordToAttempt, setPasswordToAttempt] = useState('');
   const fbHelpers = firebaseHelpers();
+  const replace = props.navigation.replace;
   return (
     <View style={{justifyContent: 'space-evenly', flex: 1}}>
       <View style={styles.headerSection}>
@@ -25,6 +26,7 @@ export default function LogIn() {
           placeholder="Password"
         />
       </View>
+      <Pressable onPress={() => replace('Sign Up')}><Text style={{fontWeight: 700, textAlign: 'center',}}>Need an account?</Text></Pressable>
 
       <Pressable
         onPress={() =>

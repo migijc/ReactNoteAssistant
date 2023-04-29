@@ -2,13 +2,14 @@ import React, {useState} from 'react';
 import {View, Text, StyleSheet, Pressable, TextInput} from 'react-native';
 import firebaseHelpers from '../helperFunctions/firebaseHelpers';
 import {handleNewUser} from '../helperFunctions/firebaseHelpers';
-export default function SignUp() {
+export default function SignUp(props) {
   const [userFirstName, setUserFirstName] = useState('');
   const [userLastName, setUserLastName] = useState('');
   const [newUserEmail, setNewUserEmail] = useState('');
-  const [reasonForUse, setReasonForUse] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirm, setPasswordConfirm] = useState('');
+
+  const navigation = props.navigation;
 
   //Erase when more info is added from user.
   const fbHelpers = firebaseHelpers();
@@ -20,7 +21,7 @@ export default function SignUp() {
 
   //Info provided by User to create userDoc
   function createDbDocContent() {
-    return {userFirstName, userLastName, newUserEmail, reasonForUse};
+    return {userFirstName, userLastName, userEmail: newUserEmail};
   }
 
   return (
@@ -40,11 +41,11 @@ export default function SignUp() {
           style={styles.input}
           placeholder="last Name"
         />
-        <TextInput
+        {/* <TextInput
           onChangeText={e => setReasonForUse(e)}
           style={styles.input}
           placeholder="How will you be using our app?"
-        />
+        /> */}
         <TextInput
           onChangeText={e => setNewUserEmail(e)}
           style={styles.input}
@@ -63,7 +64,9 @@ export default function SignUp() {
           placeholder="Confirm your password"
         />
       </View>
-      <Pressable onPress={handleSignUpClick} style={styles.signInButton}>
+      <Pressable
+        onPress={() => handleSignUpClick()}
+        style={styles.signInButton}>
         <Text>Create Account</Text>
       </Pressable>
     </View>

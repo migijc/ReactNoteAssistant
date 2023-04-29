@@ -4,11 +4,11 @@ import React from 'react';
 
 export const theme = {
   colors: {
-    // primary: '#006cbb',
-    // secondary: '#242424',
-    // text: 'rgb(235,235,235)',
-    // darker: '#2b2b2b',
-    // bg: '#2b2b2b',
+    primary: '#00da86',
+    lightPrimary: '#00da861f',
+    secondary: '#rgb(90,90,90)',
+    text: 'rgb(235,235,235)',
+    bg: 'white',
   },
 
   fontSizes: {
