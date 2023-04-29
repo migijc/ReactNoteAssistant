@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, Pressable, TextInput} from 'react-native';
-import firebaseHelpers from '../helperFunctions/firebaseHelpers';
-import {handleNewUser} from '../helperFunctions/firebaseHelpers';
+import firebaseHelpers from '../helperFunctions/FirebaseHelpers';
+import {handleNewUser} from '../helperFunctions/FirebaseHelpers';
 export default function SignUp(props) {
   const [userFirstName, setUserFirstName] = useState('');
   const [userLastName, setUserLastName] = useState('');

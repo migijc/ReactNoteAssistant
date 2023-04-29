@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, TextInput, Pressable} from 'react-native';
-import firebaseHelpers from '../helperFunctions/firebaseHelpers';
+import firebaseHelpers from '../helperFunctions/FirebaseHelpers';
 
 export default function LogIn(props) {
   const [emailToAttaempt, setEmailToAttempt] = useState('');

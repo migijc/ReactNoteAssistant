@@ -1,15 +1,18 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Pressable, View, StyleSheet, Text, TextInput} from 'react-native';
-import firebaseHelpers from '../helperFunctions/firebaseHelpers';
-import firestore from '@react-native-firebase/firestore';
+import {
+  Pressable,
+  View,
+  StyleSheet,
+  Text,
+  TextInput,
+  ScrollView,
+} from 'react-native';
+import firebaseHelpers from '../helperFunctions/FirebaseHelpers';
 import {theme} from '../helperFunctions/theme';
 import openAi from '../helperFunctions/openAi';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
-import FeatherIcon from 'react-native-vector-icons/Feather';
-import auth from '@react-native-firebase/auth';
 import promptGenerator from '../helperFunctions/promptGenerator';
 
-export default function Home() {
+export default function Home(props) {
   const [userFirstName, setUserFirstName] = useState(null);
   const [userLastName, setUserLastName] = useState(null);
   const [futureJobTitle, setFutureJobTitle] = useState('');
@@ -22,6 +25,7 @@ export default function Home() {
     useState('');
   const [modelResponse, setModelResponse] = useState(null);
   const fbHelpers = firebaseHelpers();
+  const replace = props.navigation.replace;
 
   async function handleSubmit() {
     let prompt = await promptGenerator({
@@ -48,6 +52,14 @@ export default function Home() {
       );
     }
   }, []);
+
+  useEffect(() => {
+    if(modelResponse) {
+      replace('Created Letter', {modelResponse: modelResponse});
+    }
+  }, [modelResponse])
+
+  // useEffect(() => console.log({userFirstName, userLastName}))
 
   if (modelResponse === null) {
     return (
@@ -108,28 +120,16 @@ export default function Home() {
         </Pressable>
       </View>
     );
-  } else {
-    return (
-      <View style={{borderWidth: 2}}>
-        <Text selectable>{modelResponse.content}</Text>
-      </View>
-    );
   }
 }
 
-let dropDownIcon = () => (
-  <FontAwesomeIcon name="angle-down" size={20} color={theme.colors.primary} />
-);
+// let dropDownIcon = () => (
+//   <FontAwesomeIcon name="angle-down" size={20} color={theme.colors.primary} />
+// );
 
-let sendMessageIcon = () => (
-  <FeatherIcon name="send" size={15} color={theme.colors.primary} />
-);
-let thumbsUpIcon = () => (
-  <FeatherIcon name="thumbs-up" size={15} color={theme.colors.primary} />
-);
-let thumbsDown = () => (
-  <FeatherIcon name="thumbs-down" size={15} color={theme.colors.primary} />
-);
+// let sendMessageIcon = () => (
+//   <FeatherIcon name="send" size={15} color={theme.colors.primary} />
+// );
 
 let initialNoteOne =
   "Any note that is submitted will be stored in a sub-section under the 'General' Notebook. If you wish to save notes in a different Notebook, please open that specific Notebook.";

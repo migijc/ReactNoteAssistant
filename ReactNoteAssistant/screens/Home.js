@@ -2,33 +2,50 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, Pressable, StyleSheet, Button} from 'react-native';
 import Navigation from '../components/Navigation';
 import {theme} from '../helperFunctions/theme';
-import firebaseHelpers from '../helperFunctions/firebaseHelpers';
+import FirebaseHelpers from '../helperFunctions/FirebaseHelpers';
 
 export default function Home(props) {
   const [userFirst, setUserFirst] = useState(null);
-  const [userLast, setUserLast] = useState(null);
+  const [user, setUser] = useState(null);
 
   let navigate = props.navigation.navigate;
 
-  async function getName() {
-    await firebaseHelpers().forFirestore.getUserFirstAndLastName(
-      setUserFirst,
-      setUserLast,
-    );
-  }
-
   useEffect(() => {
-    getName();
-    // firebaseHelpers().forFirestore.getUserFirstAndLastName(
+    FirebaseHelpers().forAuth.handleUserStateOnChange(setUser);
+    // FirebaseHelpers().forFirestore.getUserFirstAndLastName(
     //   setUserFirst,
     //   setUserLast,
     // );
   }, []);
 
-  if (true && true) {
+  const getName = async (cb) => {
+    let userID = user.uid;
+    console.log(userID);
+    let usersColRef = FirebaseHelpers().forFirestore.userCollectionRef();
+    let userDocRef = usersColRef.doc(userID);
+    userDocRef.onSnapshot(snapshot => {
+      let data = snapshot.data();
+      let firstName = data.userFirstName;
+      console.log(firstName)
+      cb(firstName);
+    });
+    // let docData = docs.data();
+    // let firstName =docData.userFirstName;
+    // cb(firstName)
+  };
+
+  useEffect(()=>console.log(userFirst))
+
+  useEffect(() => {
+    if (user) {
+      getName(setUserFirst);
+    }
+  }, [user]);
+
+  if (user) {
     return (
       <View style={styles.mainView}>
-        <Text style={styles.pageTitle}>Create New</Text>
+        {/* <Text style={styles.pageTitle}>Create New</Text> */}
         <View style={styles.content}>
           <View>
             <Text>{`Welcome back ${userFirst}`}</Text>
@@ -76,7 +93,7 @@ export default function Home(props) {
         </View>
         <Button
           title="SignOut"
-          onPress={() => firebaseHelpers().forAuth.signUserOut()}
+          onPress={() => FirebaseHelpers().forAuth.signUserOut()}
         />
         <Navigation />
       </View>

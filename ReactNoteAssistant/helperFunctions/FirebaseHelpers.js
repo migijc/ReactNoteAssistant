@@ -2,9 +2,10 @@
 import auth, { firebase } from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
+import React, { useState } from 'react';
 
 
-export default function firebaseHelpers() {
+export default function FirebaseHelpers() {
 
   const forAuth = {
     isUserLoggedIn: auth().currentUser ? true : false,
@@ -44,13 +45,13 @@ export default function firebaseHelpers() {
 
   const forFirestore = {
     userCollectionRef: () => {
-      return firestore().collection(`users/${forAuth.currentUserUID()}`);
+      return firestore().collection(`users`);
     },
 
     getUserFirstAndLastName: async (setFirst, setLast) => {
-      let userID = firebaseHelpers().forAuth.currentUserUID();
+      let userID = FirebaseHelpers().forAuth.currentUserUID();
       let usersCollectionRef = firestore().collection('users');
-      let docs = await usersCollectionRef.doc(userID).get();
+      let docs = await usersCollectionRef.doc(userID).get()
       let firstName = docs._data.userFirstName;
       let lastName = docs._data.userLastName;
       setFirst(firstName);
@@ -73,21 +74,21 @@ export default function firebaseHelpers() {
 
 
 //function handles userCreation & takes care of adding User to DB.
-//instead of calling firebaseHelpers() several times, can destructure
-//  to get only what we need --> const {createNewUser, currentUserUID, addUserToDb} = firebaseHelpers.forAuth
+//instead of calling FirebaseHelpers() several times, can destructure
+//  to get only what we need --> const {createNewUser, currentUserUID, addUserToDb} = FirebaseHelpers.forAuth
 export async function handleNewUser(email, password, docContent) {
-  let navigation = useNavigation;
 
   try {
-    let newUser = await firebaseHelpers().forAuth.createNewUser(
+    let newUser = await FirebaseHelpers().forAuth.createNewUser(
       email,
       password,
     );
 
-    let newUserId = firebaseHelpers().forAuth.currentUserUID();
+    let newUserId = FirebaseHelpers().forAuth.currentUserUID();
     docContent.userID = newUserId;
 
-    let result = await firebaseHelpers().forFirestore.addNewUserToDB(docContent);
+    let result = await FirebaseHelpers().forFirestore.addNewUserToDB(docContent);
+    return result;
   } catch (err) {
     console.error(err);
   }
