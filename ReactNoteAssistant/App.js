@@ -8,6 +8,9 @@ import SignUp from './screens/SignUp';
 import Home from './screens/Home';
 import AddProfessionalExp from './screens/AddProfessionalExp';
 import CreatedLetter from './screens/CreatedLetter';
+import SavedDocumentsScreen from './screens/SavedDocumentsScreen';
+import AccountScreen from './screens/AccountScreen';
+import { Text } from 'react-native';
 
 const stack = createNativeStackNavigator();
 function App() {
@@ -41,6 +44,30 @@ function App() {
                 headerTintColor: 'white',
                 headerTitleAlign: 'center',
                 headerTitle: 'Create New',
+                headerShown: false,
+              }}
+            />
+            <stack.Screen
+              name="Saved"
+              component={SavedDocumentsScreen}
+              options={{
+                headerStyle: {backgroundColor: 'black'},
+                headerTintColor: 'white',
+                headerTitleAlign: 'center',
+                headerTitle: 'Saved Docs',
+                headerShown: false,
+              }}
+            />
+
+            <stack.Screen
+              name="Account"
+              component={AccountScreen}
+              options={{
+                headerStyle: {backgroundColor: 'black'},
+                headerTintColor: 'white',
+                headerTitleAlign: 'center',
+                headerTitle: 'My Account',
+                headerShown: false,
               }}
             />
 
@@ -59,7 +86,7 @@ function App() {
               name="Created Letter"
               component={CreatedLetter}
               options={{
-                headerShown: true,
+                headerShown: false,
                 headerTintColor: 'white',
                 headerStyle: {backgroundColor: 'black'},
                 headerTitleAlign: 'center',

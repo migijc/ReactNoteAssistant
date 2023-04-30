@@ -59,6 +59,10 @@ export default function FirebaseHelpers() {
     },
 
     addNewUserToDB: async docContent => {
+      docContent.userFirstName = formatStrings(docContent.userFirstName);
+      docContent.userLastName = formatStrings(docContent.userLastName);
+      docContent.userEmail = formatStrings(docContent.userEmail);
+
       const currentUserUID = forAuth.currentUserUID();
       let doc = await firestore()
         .collection('users')
@@ -66,7 +70,34 @@ export default function FirebaseHelpers() {
         .set(docContent);
       return doc;
     },
+
+    saveCoverLetter: async (company, role, letter) => {
+      const id = forAuth.currentUserUID();
+      let coverLetterColRef = firestore().collection(`users/${id}/coverLetters`);
+      let docRef = coverLetterColRef.doc();
+      await docRef.set({
+        company,
+        role,
+        coverLetter: letter,
+        savedOnTimestamp: new Date().getTime(),
+      });
+      return;
+    },
+
+    getSavedCoverLetters: async () => {
+      const id = forAuth.currentUserUID();
+      let allDocs = [];
+      let coverLetterColRef = firestore().collection(`users/${id}/coverLetters`);
+      let snapshot = await coverLetterColRef.get();
+      let docs = snapshot.docs;
+      docs.forEach(doc => {
+        let data = doc.data();
+        allDocs.push(data);
+      })
+      return allDocs;
+    },
   };
+  const usersCollectionRef = firestore().collection('users');
 
   return {forAuth, forFirestore};
 }
@@ -94,15 +125,6 @@ export async function handleNewUser(email, password, docContent) {
   }
 }
 
-//sets object with newConvo info on homeMount
-export function getInitialConversation() {
-  let initalConversation = {
-    conversationStartTime: (new Date().getTime() / 1000).toFixed(0),
-    userInputs: [],
-    botInputs: ['Hey [USER], how can I help today?'],
-  };
-  return initalConversation;
-}
 
 //turn user inputs into uniform camelCase name
 export function stringToCamelCase(id) {
@@ -110,8 +132,15 @@ export function stringToCamelCase(id) {
   const capitalizedWords = wordsArray.map((word, index) =>
     index === 0
       ? word.toLowerCase()
-      : word.charAt(0).toUpperCase() + word.slice(1),
+      : word.charAt(0).toUpperCase() + word.slice(1).toLowerCase(),
   );
   return capitalizedWords.join('');
+}
+
+function formatStrings(string){
+  let arrString = string.split('');
+  arrString[0] = arrString[0].toUpperCase();
+  let returnString = arrString.join('');
+  return returnString;
 }
 

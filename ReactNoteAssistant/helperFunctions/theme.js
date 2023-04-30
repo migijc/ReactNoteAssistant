@@ -4,11 +4,13 @@ import React from 'react';
 
 export const theme = {
   colors: {
-    primary: '#00da86',
+    primary: '#f3d944a6',
     lightPrimary: '#00da861f',
-    secondary: '#rgb(90,90,90)',
+    secondary: 'rgb(90,90,90)',
     text: 'rgb(235,235,235)',
-    bg: 'white',
+    bg: 'rgb(30,30,30)',
+    lightBG: 'rgba(255,255,255, .1)',
+    bgHalfOpac: 'rgba(255, 255, 255, .75)',
   },
 
   fontSizes: {

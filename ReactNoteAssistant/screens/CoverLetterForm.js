@@ -54,10 +54,15 @@ export default function Home(props) {
   }, []);
 
   useEffect(() => {
-    if(modelResponse) {
-      replace('Created Letter', {modelResponse: modelResponse});
+    if (modelResponse) {
+      replace('Created Letter', {
+        modelResponse: modelResponse,
+        futureCompanyName: futureCompanyName,
+        futureJobTitle: futureJobTitle,
+        type: 'coverLetter',
+      });
     }
-  }, [modelResponse])
+  }, [modelResponse]);
 
   // useEffect(() => console.log({userFirstName, userLastName}))
 
@@ -173,13 +178,15 @@ const styles = StyleSheet.create({
   input: {
     // flex: 1,
     // color: 'rgb(255,255,255)',
+    color: 'white',
     backgroundColor: theme.colors.bg,
     maxHeight: 44,
-    borderBottomWidth: 1.3,
+    borderBottomWidth: 2,
     borderColor: theme.colors.primary,
     // borderRadius: 7,
     paddingLeft: 15,
     paddingRight: 10,
+    // fontWeight: 500,
   },
 
   userInputText: {
@@ -187,7 +194,8 @@ const styles = StyleSheet.create({
   },
 
   submitButton: {
-    backgroundColor: theme.colors.primary,
+    // backgroundColor: theme.colors.primary,
+    backgroundColor: 'black',
     borderRadius: 900,
     borderWidth: 0.4,
     borderColor: 'gray',
